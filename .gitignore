@@ -1,0 +1,5 @@
+# Ignore the .env file containing sensitive credentials
+.env
+
+# Ignore any other sensitive files
+config.php
