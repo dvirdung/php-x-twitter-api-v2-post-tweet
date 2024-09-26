@@ -76,7 +76,7 @@ The script performs the following steps:
 
 - Sets Up Twitter API Credentials: Loads credentials from config.php or environment variables.
 - Constructs the Tweet Content: Combines `$tweet_text` and `$tweet_hashtags` into `$fullTweet`.
-- Handles Character Limits: Accounts for Twitter's character limit (280 for standard accounts, 10,000 for premium).
+- Handles Character Limits: Accounts for Twitter's character limit (280 for standard accounts, 25,000 for premium).
 - Adjusts for URLs, which count as 23 characters regardless of length.
 - Truncates the tweet text if necessary to comply with limits.
 - Prepares OAuth Parameters: Generates OAuth parameters including nonce, timestamp, and signature.
