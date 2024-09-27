@@ -59,7 +59,7 @@ Edit the post_tweet.php script to customize the tweet content:
 ```php
 // The tweet content variables
 $tweet_text = 'Hello, world! This is a tweet from my PHP script using Twitter API v2 from https://github.com/dvirdung/php-x-twitter-api-v2-post-tweet.';
-$tweet_hashtags = ['#PHP', '#TwitterAPI', '#OAuth', '#php-x-twitter-api-v2-post-tweet'];
+$tweet_hashtags = ['#PHP', '#TwitterAPI', '#OAuth', '#PhpXTwitterApiV2PostTweet'];
 ```
 
 ### Running the Script
