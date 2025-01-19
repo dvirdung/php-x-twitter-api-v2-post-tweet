@@ -96,22 +96,27 @@ $response_data = json_decode($response, true);
 
 // Handle the response
 if ($http_status === 201 && isset($response_data['data']['id'])) {
-    echo "Tweet posted successfully! Tweet ID: " . $response_data['data']['id'];
+    $success_message = "Tweet posted successfully! Tweet ID: " . $response_data['data']['id'];
+    echo $success_message;
+    logTwitterResponse($http_status, $success_message);
 } else {
-    echo "Failed to post tweet. HTTP Status Code: $http_status\n";
+    $error_message = "Failed to post tweet. HTTP Status Code: $http_status\n";
 
     // Enhanced error handling
     if (isset($response_data['errors'])) {
         foreach ($response_data['errors'] as $error) {
-            echo "Error Code: " . $error['code'] . "\n";
-            echo "Message: " . $error['message'] . "\n";
+            $error_message .= "Error Code: " . $error['code'] . "\n";
+            $error_message .= "Message: " . $error['message'] . "\n";
             if (isset($error['details'])) {
-                echo "Details: " . implode('; ', $error['details']) . "\n";
+                $error_message .= "Details: " . implode('; ', $error['details']) . "\n";
             }
         }
     } else {
-        echo "Response: $response\n";
+        $error_message .= "Response: $response\n";
     }
+
+    echo $error_message;
+    logTwitterResponse($http_status, $error_message);
 }
 
 /**
@@ -156,5 +161,20 @@ function buildAuthorizationHeader($oauth)
     }
     $r .= implode(', ', $values);
     return $r;
+}
+
+/**
+ * Logs Twitter API responses and errors with timestamp
+ *
+ * @param int $status HTTP status code
+ * @param string $message Response message or error details
+ * @param string $logFile Path to log file
+ * @return void
+ */
+function logTwitterResponse($status, $message, $logFile = 'twitter_api.log')
+{
+    $timestamp = date('Y-m-d H:i:s');
+    $logEntry = "[$timestamp] Status: $status\nMessage: $message\n---\n";
+    file_put_contents($logFile, $logEntry, FILE_APPEND);
 }
 ?>
