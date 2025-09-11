@@ -112,7 +112,12 @@ if ($http_status === 201 && isset($response_data['data']['id'])) {
             }
         }
     } else {
-        $error_message .= "Response: $response\n";
+        $error_message .=
+            "Response: " .
+            ($response === null
+                ? "Could not decode JSON response."
+                : $response) .
+            "\n";
     }
 
     echo $error_message;
