@@ -9,6 +9,20 @@ error_reporting(E_ALL);
 // Twitter API credentials
 require_once('config.php');
 
+// Validate that credentials have been configured
+$credentials = [
+    'API_KEY' => API_KEY,
+    'API_SECRET_KEY' => API_SECRET_KEY,
+    'ACCESS_TOKEN' => ACCESS_TOKEN,
+    'ACCESS_TOKEN_SECRET' => ACCESS_TOKEN_SECRET,
+];
+foreach ($credentials as $name => $value) {
+    if (empty($value) || strpos($value, 'YOUR_') === 0) {
+        echo "Error: $name is not configured. Please update config.php with your actual credentials.\n";
+        exit(1);
+    }
+}
+
 // The tweet content variables
 $tweet_text = 'Hello, world! This is a tweet from my PHP script using Twitter API v2 from https://github.com/dvirdung/php-x-twitter-api-v2-post-tweet.';
 $tweet_hashtags = ['#PHP', '#TwitterAPI', '#OAuth', '#PhpXTwitterApiV2PostTweet'];
