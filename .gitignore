@@ -3,3 +3,11 @@
 
 # Ignore any other sensitive files
 config.php
+
+.gitignore
+CLAUDE.md
+todo.md
+
+# Log files
+*.log
+twitter_api.log

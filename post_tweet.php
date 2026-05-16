@@ -3,11 +3,15 @@
  * Script to post a tweet using Twitter API v2 with OAuth 1.0a User Authentication.
  */
 
-ini_set('display_errors', 1);
 error_reporting(E_ALL);
+ini_set('display_errors', getenv('APP_DEBUG') ? '1' : '0');
 
 // Twitter API credentials
-require_once('config.php');
+if (!file_exists(__DIR__ . '/config.php')) {
+    fwrite(STDERR, "Error: config.php not found. Copy .env.example values into config.php.\n");
+    exit(1);
+}
+require_once __DIR__ . '/config.php';
 
 // Validate that credentials have been configured
 $credentials = [
@@ -101,9 +105,17 @@ curl_setopt_array($ch, [
 // Execute the request
 $response = curl_exec($ch);
 $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$curl_err = $response === false ? curl_error($ch) : null;
 
 // Close cURL
 curl_close($ch);
+
+if ($response === false) {
+    $error_message = "Failed to post tweet. cURL error: $curl_err\n";
+    echo $error_message;
+    logTwitterResponse($http_status, $error_message);
+    exit(1);
+}
 
 // Decode the response
 $response_data = json_decode($response, true);
@@ -128,8 +140,8 @@ if ($http_status === 201 && isset($response_data['data']['id'])) {
     } else {
         $error_message .=
             "Response: " .
-            ($response === null
-                ? "Could not decode JSON response."
+            ($response_data === null
+                ? "Could not decode JSON response. Raw: $response"
                 : $response) .
             "\n";
     }
@@ -196,4 +208,3 @@ function logTwitterResponse($status, $message, $logFile = 'twitter_api.log')
     $logEntry = "[$timestamp] Status: $status\nMessage: $message\n---\n";
     file_put_contents($logFile, $logEntry, FILE_APPEND);
 }
-?>
