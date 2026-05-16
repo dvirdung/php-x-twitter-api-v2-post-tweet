@@ -7,7 +7,7 @@ This PHP script allows you to post tweets to **X** (formerly known as Twitter) u
 - **PHP** installed on your system (PHP 7.2 or higher recommended).
 - **cURL extension** enabled in PHP.
 - A **Twitter Developer Account** (X Developer Account) with an app that has **Read and Write** permissions.
-- **Composer** installed if you plan to use external dependencies.
+- **Composer** (optional) — only needed if you use environment variables via `vlucas/phpdotenv`.
 
 ## Getting Started
 
@@ -95,12 +95,15 @@ The script performs the following steps:
 
 - cURL Errors: Verify that the cURL extension is installed and enabled in your PHP configuration.
 
-Other Errors: Enable error reporting in PHP to display any warnings or errors:
+Other Errors: PHP errors are hidden by default. To display warnings and errors, run with the `APP_DEBUG` environment variable set:
 
-```php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+```bash
+APP_DEBUG=1 php post_tweet.php
 ```
+
+### Logging
+
+Each run appends the HTTP status and response (success or error) to `twitter_api.log` in the working directory. The file is gitignored. Delete or rotate it as needed.
 
 ### Security Considerations
 
