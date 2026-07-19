@@ -26,15 +26,15 @@ composer install
 ```
 
 ### Configuration
-#### Option 1: Using Environment Variables
+#### Option 1: Using Shell Environment Variables
 
-Rename the file .env.example to .env and update it with your Twitter API credentials:
+Export your credentials before running the script:
 
-```dotenv
-API_KEY=your_api_key
-API_SECRET_KEY=your_api_secret_key
-ACCESS_TOKEN=your_access_token
-ACCESS_TOKEN_SECRET=your_access_token_secret
+```bash
+export API_KEY=your_api_key
+export API_SECRET_KEY=your_api_secret_key
+export ACCESS_TOKEN=your_access_token
+export ACCESS_TOKEN_SECRET=your_access_token_secret
 ```
 
 #### Option 2: Using config.php
@@ -47,10 +47,34 @@ define('API_KEY', 'your_api_key');
 define('API_SECRET_KEY', 'your_api_secret_key');
 define('ACCESS_TOKEN', 'your_access_token');
 define('ACCESS_TOKEN_SECRET', 'your_access_token_secret');
+define('TWITTER_BACKEND', 'twitter');
+define('XQUIK_API_KEY', 'your_xquik_api_key');
+define('XQUIK_ACCOUNT', 'your_x_account_username');
+define('XQUIK_API_BASE', 'https://xquik.com/api/v1');
 ?>
 ```
 
+Environment variables override values from `config.php`.
+
 Note: For security reasons, ensure that config.php and .env are added to your .gitignore file and not committed to version control.
+
+### Optional: Posting with Xquik
+
+Set `TWITTER_BACKEND` to `xquik` to post through Xquik:
+
+```dotenv
+TWITTER_BACKEND=xquik
+XQUIK_API_KEY=your_xquik_api_key
+XQUIK_ACCOUNT=your_x_account_username
+XQUIK_API_BASE=https://xquik.com/api/v1
+```
+
+The script sends `account` and `text` to `POST /api/v1/x/tweets` with the
+`x-api-key` header. The default `twitter` backend continues to use X API v2
+with OAuth 1.0a.
+
+Xquik is an independent third-party service. Not affiliated with X Corp.
+"Twitter" and "X" are trademarks of X Corp.
 
 ### Customize Your Tweet
 
